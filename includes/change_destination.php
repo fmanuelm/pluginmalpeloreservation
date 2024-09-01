@@ -22,7 +22,7 @@ function change_destination() {
 		*/
 
 		$datos = $wpdb->get_results("
-    SELECT $name_table.id AS id_reservation, $name_table.destination, $table_name3.id as id_room, $table_name3.status, $table_name3.room_name, $table_name3.price, $table_name3.people, $table_name2.fecha FROM $table_name2 
+    SELECT $name_table.id AS id_reservation, $name_table.destination, $table_name3.id as id_room, $table_name3.status, $table_name3.room_name, $table_name3.price, $table_name3.people, $table_name2.disponible, $table_name2.fecha FROM $table_name2 
 LEFT JOIN $name_table 
 ON $name_table.id = $table_name2.id_reservation
 LEFT JOIN $table_name3 
