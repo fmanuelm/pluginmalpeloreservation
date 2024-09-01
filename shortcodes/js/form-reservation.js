@@ -42,7 +42,7 @@ xhr.onreadystatechange = function() {
 			//option.value = opcion.value;
 			//option.text = opcion.text;
 			option.value = opcion.fecha;
-			option.setAttribute("disponible", opcion.disponible)
+			option.setAttribute("disponible", opcion.disponible);
 			option.text = opcion.fecha;
 			option.disabled = (opcion.status == 1)?false:true;
 			fecha.appendChild(option);
