@@ -42,7 +42,7 @@ xhr.onreadystatechange = function() {
 			//option.value = opcion.value;
 			//option.text = opcion.text;
 			option.value = opcion.fecha;
-			option.setAttribute("disponible", opcion.disponible);
+			
 			option.text = opcion.fecha;
 			option.disabled = (opcion.status == 1)?false:true;
 			fecha.appendChild(option);
@@ -81,6 +81,7 @@ fecha.addEventListener("change", function (event){
 					var option2 = document.createElement("option");
 					option2.value = opcion2.id_room;
 					option2.text = opcion2.room_name;
+					option2.setAttribute("data-disponible", opcion2.disponible);
 					habitacion.appendChild(option2);
 				});
 				
