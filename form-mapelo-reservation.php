@@ -77,7 +77,7 @@ function form_mapelo_reservation() {
           $room_name = $row->room_name;
           $price = $row->price;
           $people = $row->people;
-          echo "<span style='margin-right: 10px'><input type='checkbox' name='habSelect[0][$id]'> $room_name (Personas: <strong>$people</strong> / Precio x Persona: <strong>$price</strong>) Disponible: <input type='radio' name='habDisponible[0][$id]'/> Si <input type='radio' name='habDisponible[0][$id]'/> No</span>";
+          echo "<span style='margin-right: 10px'><input type='checkbox' name='habSelect[0][$id]'> $room_name (Personas: <strong>$people</strong> / Precio x Persona: <strong>$price</strong>) Disponible: <input type='radio' name='habDisponible[$id]' value='1'/> Si <input type='radio' name='habDisponible[$id]' value='0'/> No</span>";
         }
     echo "</div>";
   echo "</div>";
@@ -208,7 +208,7 @@ WHERE $table_name2.id_reservation = $id GROUP BY $table_name2.id");
   echo "<h1>Editar Destino</h1>";
   echo '<form method="POST" action="' . $url_home . '/wp-content/plugins/form-mapelo-reservation/includes/process_form_reservation_update.php" autocomplete="off" id="create_reservation">';
   $habitaciones_json = json_encode($habitaciones);
-  print_r($habitaciones);
+  
   echo "<input type='hidden' value='$habitaciones_json' name='habitaciones_json' id='habitaciones_json'/>";
   echo "<input type='hidden' name='reservation_id' value='$id'/>";
   echo "<div class='form-group' style='margin: 10px 0px;'>";
@@ -224,15 +224,8 @@ WHERE $table_name2.id_reservation = $id GROUP BY $table_name2.id");
       
       $fecha = $row->fecha;
       $disponible = $row->disponible;
-      $disponibleCheckedSi = '';
-      $disponibleCheckedNo = '';
-      if ($disponible === 1)
-      {
-        $disponibleCheckedSi = 'checked';
-      }
-      else {
-        $disponibleCheckedNo = 'checked';
-      }
+      
+      
       echo "<div class='form-group' style='margin: 10px 0px; position: relative;'>";
         echo '<input type="date" name="fechas[]" value="' . $fecha . '" class="form-control fecha" style="margin-right: 20px">';
             foreach ($habitaciones as $row1) {
@@ -241,17 +234,31 @@ WHERE $table_name2.id_reservation = $id GROUP BY $table_name2.id");
               $price = $row1->price;
               $people = $row1->people;
               $checked = '';
-              
+              $disponibleCheckedSi = '';
+              $disponibleCheckedNo = '';
               foreach ($row_bedrooms2 as $row2)
               {
+                
                 //echo $row2->id_room . " - " . $row1->id . " / ";
                 if (($row2->id_room === $row1->id) && ($fecha === $row2->fecha))
                 {
 
                   $checked = 'checked';
+                  if ($row2->disponible == 1)
+                  {
+                    $disponibleCheckedSi = 'checked';
+                  }
+                  else {
+                    $disponibleCheckedNo = 'checked';
+                  }
                 }
               }
-              echo "<span style='margin-right: 10px'><br/><input type='checkbox' name='habSelect[$fila][$id]' $checked> $room_name (Personas: <strong>$people</strong> / Precio x Persona: <strong>$price</strong>) <br/> Disponible: <input type='radio' name='habDisponible[0][$id]' $disponibleCheckedSi /> Si <input type='radio' name='habDisponible[0][$id]' $disponibleCheckedNo /> No</span></span>";
+              if ($disponibleCheckedSi === '' && $disponibleCheckedNo === '')
+              {
+                $disponibleCheckedSi = 'checked';
+              }
+
+              echo "<span style='margin-right: 10px'><br/><input type='checkbox' name='habSelect[$fila][$id]' $checked> $room_name (Personas: <strong>$people</strong> / Precio x Persona: <strong>$price</strong>) <br/> Disponible: <input type='radio' name='habDisponible[$fila][$id]' $disponibleCheckedSi value='1'/> Si <input type='radio' name='habDisponible[$fila][$id]' $disponibleCheckedNo value='0'/> No</span></span>";
               $checked = '';
             }
             echo "<button class='btn-danger btn remove-bedroom' style='position: absolute; right: 10px; top: 10px;  font-size: 20px; width: 30px;'>x</button>";

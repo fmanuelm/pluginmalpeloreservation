@@ -17,6 +17,7 @@ create_reservation.addEventListener("submit", function(event){
   let vacio = 0;
   const input_fechas = document.querySelectorAll('input.fecha[type="date"]');
 
+
   input_fechas.forEach((input_fecha) => {
     if (input_fecha.value === '')
     {
@@ -45,6 +46,7 @@ addBedroom.addEventListener("click", function() {
 		add_check_update = "<select name='date_enable[]'><option value='1'>Enabled</option><option value='0'>Disabled</option> </select>";
     newRoom.classList.add("form-group");
     newRoom.style.margin = "10px 0px";
+    newRoom.style.position = "relative";
     fecha.classList.add("form-control");
     fecha.classList.add("fecha");
     fecha.setAttribute("name", "fechas[]");
@@ -52,8 +54,16 @@ addBedroom.addEventListener("click", function() {
     fecha.setAttribute("type", "date");
     fecha.style.marginRight = "20px";
     habitaciones.appendChild(newRoom);
+    let saltoLine = document.createElement("br");
     newRoom.appendChild(fecha);
+    
     let remove = document.createElement("button");
+    
+    remove.style.position = "absolute";
+    remove.style.right = "10px";
+    remove.style.top = "10px";
+    remove.style.width = "30px";
+    remove.style.fontSize = "20px";
     remove.classList.add("btn-danger");
     remove.classList.add("btn");
     remove.classList.add("remove-bedroom");
@@ -69,9 +79,35 @@ addBedroom.addEventListener("click", function() {
       input_hab.setAttribute("type","checkbox");
       input_hab.setAttribute("name","habSelect" + `[${inputCount}][${val.id}]`);
       input_hab.classList.add("form-control");
-
+      let saltoLinea = document.createElement("br");
+      let saltoLinea2 = document.createElement("br");
+      let disponibilidadSi = document.createElement("input");
+      let disponibilidadNo = document.createElement("input");
+      let txtDisponibilidad = document.createTextNode("Disponible: ");
+      let txtDisponibilidadSi = document.createTextNode(" Si ");
+      let txtDisponibilidadNo = document.createTextNode(" No ");
+      disponibilidadSi.setAttribute("type", "radio");
+      disponibilidadSi.setAttribute("name", "habDisponible" + `[${inputCount}][${val.id}]`);
+      disponibilidadSi.setAttribute("type", "radio");
+      disponibilidadSi.value = "1";
+      disponibilidadSi.checked = true;
+      disponibilidadNo.setAttribute("type", "radio");
+      disponibilidadNo.value = "0";
+      disponibilidadNo.setAttribute("name", "habDisponible" + `[${inputCount}][${val.id}]`);
+      span_fecha.appendChild(saltoLinea);
       span_fecha.appendChild(input_hab);
+      
+      
+      
       span_fecha.appendChild(label_hab);
+      span_fecha.appendChild(saltoLinea2);
+      span_fecha.appendChild(txtDisponibilidad);
+      
+      span_fecha.appendChild(txtDisponibilidadSi);
+      span_fecha.appendChild(disponibilidadSi);
+      span_fecha.appendChild(txtDisponibilidadNo);
+      span_fecha.appendChild(disponibilidadNo);
+      
       newRoom.appendChild(span_fecha);
       
     });
