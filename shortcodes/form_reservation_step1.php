@@ -9,8 +9,12 @@ function form_reservation_step1($atts) {
 
     $web_destino = $slug;
     $img_destinations[] = Array();
-    echo get_destinations();
-    $form = '<form method="post" action="' . home_url() . '/' .  $web_destino . '" autocomplete="off">
+    $logos_destino = get_destinations_img();
+    //echo get_destinations();
+    $form = '<div style="display: flex; align-items: center; justify-content: center;">
+    ' . $logos_destino .'
+    </div>
+    <form method="post" action="' . home_url() . '/' .  $web_destino . '" autocomplete="off">
 
                 <div class="form-group">
                     <label for="destino">Destino:</label>
@@ -60,6 +64,21 @@ function get_destinations()
 
     foreach ($resultados as $resultado) {
         $result .= "<option value='" . $resultado->id . "'>" . $resultado->destination . "</option>";
+    }
+
+    return $result;
+}
+function get_destinations_img()
+{
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'mapelo_reservation';
+    $query = "SELECT id, destination, logo FROM $table_name";
+    $resultados = $wpdb->get_results($query);
+    
+    $result = "";
+
+    foreach ($resultados as $resultado) {
+        $result .= "<div class='destino-logo' style='cursor: pointer;' data-destino='" . $resultado->id . "'><img style='margin:10px;'" . " src='" . $resultado->logo . "'/></div>";
     }
 
     return $result;

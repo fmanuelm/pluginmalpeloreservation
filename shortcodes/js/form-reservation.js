@@ -2,6 +2,7 @@ var destino = document.querySelector("#destino");
 var fecha = document.querySelector("#fecha");
 var habitacion = document.querySelector("#habitacion");
 var personas = document.querySelector("#personas");
+
 var opciones2;
 let valorDestino = null;
 var priceHab;
@@ -14,6 +15,19 @@ else {
 	localhost = window.location.protocol + '//' + localhost;
 }
 document.querySelector("#submit").disabled = true;
+document.addEventListener("DOMContentLoaded", function() {
+	var destino_logos = document.getElementsByClassName("destino-logo");
+	for (var i = 0; i < destino_logos.length; i++) {
+	    destino_logos[i].addEventListener("click", function(event) {
+	    	var destino_id = event.currentTarget.dataset.destino;
+	    	destino.value = destino_id;
+	    	var eventChange = new Event('change', { bubbles: true });
+      
+	      	// Dispara el evento 'change'
+	      	destino.dispatchEvent(eventChange);
+	    });
+	}
+});
 destino.addEventListener("change", function (event) {
 	if (destino.value !== '0')
 		valorDestino = destino.value;
