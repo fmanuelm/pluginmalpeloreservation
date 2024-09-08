@@ -14,15 +14,17 @@ function form_reservation_step1($atts) {
     $form = '<div style="display: flex; align-items: center; justify-content: center;">
     ' . $logos_destino .'
     </div>
+    <div id="yearTabs"></div>
+    <div id="yearContents" style="display: flex;"></div>
     <form method="post" action="' . home_url() . '/' .  $web_destino . '" autocomplete="off">
 
-                <div class="form-group">
+                <div class="form-group" style="display: none;">
                     <label for="destino">Destino:</label>
                     <select name="destino" id="destino" class="form-control">
                         ' . get_destinations() . '
                     </select>
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="display: none;">
                     <label for="fecha">Fecha:</label>
                     <select name="fecha" id="fecha" class="form-control">
                         <option value="1"></option>

@@ -26,6 +26,7 @@ require_once(plugin_dir_path( __FILE__ ) . 'includes/form_reservation.php');
 require_once(plugin_dir_path( __FILE__ ) . 'shortcodes/form_reservation_step1.php');
 //require_once(plugin_dir_path( __FILE__ ) . 'shortcodes/change_destination_form.php');
 require_once(plugin_dir_path( __FILE__ ) . 'includes/change_destination.php');
+require_once(plugin_dir_path( __FILE__ ) . 'includes/query_date.php');
 require_once(plugin_dir_path( __FILE__ ) . 'includes/change_habitacion.php');
 require_once(plugin_dir_path( __FILE__ ) . 'includes/change_fecha.php');
 require_once(plugin_dir_path( __FILE__ ) . 'includes/enviar_formulario.php');
@@ -328,6 +329,9 @@ function my_plugin_init() {
 
   add_action('wp_ajax_change_destination', 'change_destination');
   add_action('wp_ajax_nopriv_change_destination', 'change_destination');
+
+  add_action('wp_ajax_query_date', 'query_date');
+  add_action('wp_ajax_nopriv_query_date', 'query_date');
 
   add_action('wp_ajax_change_habitacion', 'change_habitacion');
   add_action('wp_ajax_nopriv_change_habitacion', 'change_habitacion');
