@@ -67,18 +67,22 @@ function form_mapelo_reservation() {
   echo "<label for='destino' style='display:block'>Destino</label>";
   echo '<input type="text" name="destino" id="destino" class="form-control">';
   echo "</div>";
+  echo "<div class='form-group' style='margin: 10px 0px;'>";
+    echo "<label for='logo' style='display: block;'>Imagen URL</label>";
+    echo "<input type='text' name='logo' id='logo'>";
+  echo "</div>";
   
   
   
   echo "<div id='habitaciones'>";
     echo "<div class='form-group' style='margin: 10px 0px;'>";
-      echo '<input type="date" name="fechas[]" id="fecha1" class="form-control fecha" style="margin-right: 20px">';
+      echo '<input type="date" name="fechas[]" id="fecha1" class="form-control fecha" style="margin-right: 20px"><br/><br/>';
         foreach ($habitaciones as $row) {
           $id = $row->id;
           $room_name = $row->room_name;
           $price = $row->price;
           $people = $row->people;
-          echo "<span style='margin-right: 10px'><input type='checkbox' name='habSelect[0][$id]'> $room_name (Personas: <strong>$people</strong> / Precio x Persona: <strong>$price</strong>) Disponible: <input type='radio' name='habDisponible[$id]' value='1'/> Si <input type='radio' name='habDisponible[$id]' value='0'/> No</span>";
+          echo "<span style='margin-right: 10px;'><input type='checkbox' name='habSelect[0][$id]'> $room_name (Personas: <strong>$people</strong> / Precio x Persona: <strong>$price</strong>)<br/> Disponible: <input type='radio' name='habDisponible[$id]' value='1'/> Si <input type='radio' name='habDisponible[$id]' value='0'/> No</span><br/><br/>";
         }
     echo "</div>";
   echo "</div>";
@@ -184,6 +188,7 @@ function show_form_edit() {
   $row = $wpdb->get_results("SELECT $name_table.* FROM $name_table
     WHERE $name_table.id = $id");
   $destination = $row[0]->destination;
+  $logo = $row[0]->logo;
   
   $row_date = $wpdb->get_results("SELECT * FROM $table_name2
     WHERE id_reservation = $id"); 
@@ -216,8 +221,11 @@ WHERE $table_name2.id_reservation = $id GROUP BY $table_name2.id");
     echo "<label for='destino' style='display: block;'>Destino</label>";
     echo "<input type='text' name='destino' id='destino' value='$destination'>";
   echo "</div>";
-  
-  
+  echo "<br/>";
+  echo "<div class='form-group' style='margin: 10px 0px;'>";
+    echo "<label for='logo' style='display: block;'>Imagen URL</label>";
+    echo "<input type='text' name='logo' id='logo' value='$logo'>";
+  echo "</div>";
   echo "<br/>";
   echo "<div id='habitaciones'>";
   $fila = 0;

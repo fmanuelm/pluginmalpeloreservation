@@ -15,6 +15,7 @@ if (isset($_POST['submit'])) {
     $table_name2 = $wpdb->prefix . 'mapelo_reservation_bedrooms_books';
 
     $destino = $_POST['destino'];
+    $logo = $_POST['logo'];
     $fechas = $_POST['fechas'];
     $id = $_POST['reservation_id'];
     $habitaciones = isset($_POST['habSelect'])?$_POST['habSelect']:null;
@@ -27,7 +28,8 @@ if (isset($_POST['submit'])) {
     echo "<br>";
     // Prepara los datos para ser insertados en la base de datos
     $data = array(
-        'destination' => $destino
+        'destination' => $destino,
+        'logo' => $logo
     );
     
     if (trim($destino) == '')

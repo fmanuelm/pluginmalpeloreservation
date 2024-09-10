@@ -14,6 +14,7 @@ if (isset($_POST['submit'])) {
     // Recoge los datos del formulario
     $destino = $_POST['destino'];
     $fechas = $_POST['fechas'];
+    $logo = $_POST['logo'];
     
     $habitaciones = isset($_POST['habSelect'])?$_POST['habSelect']:null;
 
@@ -22,6 +23,7 @@ if (isset($_POST['submit'])) {
     // Prepara los datos para ser insertados en la base de datos
     $data = array(
         'destination' => $destino,
+        'logo' => $logo
     );
     
     if (trim($destino) === '')
@@ -58,7 +60,7 @@ if (isset($_POST['submit'])) {
         }
         
     }
-    die();
+    
     /*
     $i = 0;
     foreach ($habitaciones as $key => $value) {
