@@ -190,7 +190,7 @@ function showYear(selectedYear) {
 			        let monthContent = document.getElementById(`month-${dateLiMonth}`);
 	        		let newdateToAdd = document.createElement("div");
 	        		newdateToAdd.onclick = () => selectDate(option.value);
-	        		newdateToAdd.innerHTML = option.value + "<span> Disponible</span>";
+	        		newdateToAdd.innerHTML = option.value + "<span style='color: green; position: absolute; right: 0; top: 50%; transform: translateY(-50%);'> Available</span>";
 	        		monthContent.appendChild(newdateToAdd);
 			    } if(data.datos === 0) {
 			        const numeroReservas = data.datos;
@@ -199,7 +199,7 @@ function showYear(selectedYear) {
 			        let monthContent = document.getElementById(`month-${dateLiMonth}`);
 	        		let newdateToAdd = document.createElement("div");
 	        		newdateToAdd.onclick = () => selectDate(option.value);
-	        		newdateToAdd.innerHTML = option.value + "<span> Full</span>";
+	        		newdateToAdd.innerHTML = option.value + "<span style='color: red; position: absolute; right: 0; top: 50%; transform: translateY(-50%);'> Sold Out</span>";
 	        		monthContent.appendChild(newdateToAdd);
 			    }
 			})

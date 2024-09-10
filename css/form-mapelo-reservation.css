@@ -77,3 +77,47 @@ label {
   text-decoration: none;
   height: auto;
 }
+
+#yearTabs {
+  text-align: center;
+  border-bottom: 2px solid #ddd;
+}
+.yearButton {
+  background-color: transparent;
+  border: 0px solid #4CAF50; /* Puedes cambiar el color del borde */
+  color: #004b96; /* Color del texto */
+  padding: 10px 20px;
+  font-size: 30px;
+  cursor: pointer;
+  border-radius: 0px; 
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin: 5px 10px;
+  font-weight: bold;
+}
+
+.yearButton:hover {
+  background: #3b9dff;
+  color: #fff;
+}
+
+
+#yearContents > div {
+  width: 33%;
+  border: 2px solid #ddd;
+  padding: 10px 10px;
+  border-radius: 10px;
+}
+#yearContents > div > div:first-child {
+  font-size: 30px;
+  border-bottom: 3px solid #ddd;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+#yearContents > div > div:nth-child(n+2) {
+  margin:3px 0;
+  cursor: pointer;
+  color: blue;
+  font-weight: bold;
+  position: relative;
+}
