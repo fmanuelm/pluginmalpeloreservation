@@ -99,7 +99,7 @@ xhr.onreadystatechange = function() {
 
 	        //}
 	    });
-		habitacion.innerHTML="<option value='0'></option>";
+		habitacion.innerHTML="<option value='0'>Select One</option>";
 		
 	}
 };
@@ -189,8 +189,9 @@ function showYear(selectedYear) {
 			        console.log('Número de reservas:', numeroReservas);
 			        let monthContent = document.getElementById(`month-${dateLiMonth}`);
 	        		let newdateToAdd = document.createElement("div");
+	        		let dateArray = (option.value).split("-");
 	        		newdateToAdd.onclick = () => selectDate(option.value);
-	        		newdateToAdd.innerHTML = option.value + "<span style='color: green; position: absolute; right: 0; top: 50%; transform: translateY(-50%);'> Available</span>";
+	        		newdateToAdd.innerHTML = dateArray[2] + " " + getMonthName(parseInt(dateArray[1])) + "<span style='color: green; position: absolute; right: 0; top: 50%; transform: translateY(-50%);'> Available</span>";
 	        		monthContent.appendChild(newdateToAdd);
 			    } if(data.datos === 0) {
 			        const numeroReservas = data.datos;
@@ -198,8 +199,9 @@ function showYear(selectedYear) {
 			        console.log('Número de reservas:', numeroReservas);
 			        let monthContent = document.getElementById(`month-${dateLiMonth}`);
 	        		let newdateToAdd = document.createElement("div");
+	        		let dateArray = (option.value).split("-");
 	        		newdateToAdd.onclick = () => selectDate(option.value);
-	        		newdateToAdd.innerHTML = option.value + "<span style='color: red; position: absolute; right: 0; top: 50%; transform: translateY(-50%);'> Sold Out</span>";
+	        		newdateToAdd.innerHTML = dateArray[2] + " " + getMonthName(parseInt(dateArray[1])) + "<span style='color: red; position: absolute; right: 0; top: 50%; transform: translateY(-50%);'> Sold Out</span>";
 	        		monthContent.appendChild(newdateToAdd);
 			    }
 			})
@@ -225,6 +227,20 @@ function showYear(selectedYear) {
         contentToShow.classList.remove('hidden');
     }
     */
+}
+
+function getMonthName(num) {
+    const months = [
+        "January", "February", "March", "April", "May", "June", 
+        "July", "August", "September", "October", "November", "December"
+    ];
+    
+    // Asegurarse de que el número esté entre 1 y 12
+    if(num < 1 || num > 12) {
+        return "Invalid month number";
+    }
+    
+    return months[num - 1];
 }
 
 function selectDate (valor)
@@ -262,7 +278,7 @@ fecha.addEventListener("change", function (event){
 	valorDestino = destino.value;
 	//fecha = fecha.value;
 	var xhr = new XMLHttpRequest();
-	habitacion.innerHTML="<option value='0'></option>";
+	habitacion.innerHTML="<option value='0'>Select One</option>";
 	if (fecha.value !== 0 && fecha.value !== '0') {
 		xhr.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {

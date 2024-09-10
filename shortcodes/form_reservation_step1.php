@@ -30,24 +30,26 @@ function form_reservation_step1($atts) {
                         <option value="1"></option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="habitacion">Habitacion:</label>
-                    <select name="habitacion" id="habitacion" class="form-control">
+                <div class="form-group" style="text-align: center">
+                    <label for="habitacion" style="font-size: 30px; color: #004b96;">Select a Cabin:</label>
+                    <select name="habitacion" id="habitacion" class="form-control" style="border-radius: 20px;">
                         <option value="0" selected></option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="personas">Personas:</label>
-                    <select name="personas" id="personas" class="form-control" class="form-control">
+                <div class="form-group"  style="text-align: center; margin-top: 30px;">
+                    <label for="personas" style="font-size: 30px; color: #004b96;">Divers:</label>
+                    <select name="personas" id="personas" class="form-control" class="form-control" style="border-radius: 20px;">
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="total">Total: $</label>
-                    <input type="text" name="total" id="total"  disabled="disabled" value="" class="form-control" style="font-size: 1.5em; font-weight: 100; width: 100px; padding: 1px 10px;"/>
+                <div class="form-group" style="text-align: center; margin-top: 40px;">
+                    <label for="total" style="color: #004b96; font-size: 30px;">Total: $</label>
+                    <input type="text" name="total" id="total"  disabled="disabled" value="" class="form-control" style="font-weight: 100; width: 100px; padding: 1px 10px; display: inline-block; width: calc(93% - 90px); border-radius: 30px;"/>
                     </div>
                 <br/>
                 <input type="hidden" name="form1" value="1"/>
-                <input type="submit" name="enviar" value="Enviar" id="submit" class="btn-enviar"/>
+                <div class="form-group" style="text-align: center">
+                <input type="submit" name="enviar" value="Enviar" id="submit" class="btn-enviar" style="padding: 0px 6em; border-radius: 30px; background: #004b96; color: #fff; font-size: 22px; border: 1px solid #004b96;"/>
+                </div>
               </form>';
 
     
