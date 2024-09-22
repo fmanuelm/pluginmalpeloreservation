@@ -21,7 +21,8 @@ document.addEventListener("DOMContentLoaded", function() {
 	    destino_logos[i].addEventListener("click", function(event) {
 	    	document.getElementById("yearTabs").innerHTML = "";
 	    	document.getElementById("yearContents").innerHTML = "";
-	    	
+	    	let nameDestino = event.currentTarget.dataset.destinoname;
+	    	document.getElementById("titulo-destino").innerHTML = nameDestino;
 	    	var destino_id = event.currentTarget.dataset.destino;
 	    	destino.value = destino_id;
 	    	var eventChange = new Event('change', { bubbles: true });
@@ -30,6 +31,11 @@ document.addEventListener("DOMContentLoaded", function() {
 	      	destino.dispatchEvent(eventChange);
 	    });
 	}
+	autoClickFirstChild();
+	setTimeout(()=>{
+		autoClickFirstYear();
+	},500);
+	
 });
 destino.addEventListener("change", function (event) {
 	if (destino.value !== '0')
@@ -94,7 +100,7 @@ xhr.onreadystatechange = function() {
 	            const yearButton = document.createElement('button');
 	            yearButton.className = 'yearButton';
 	            yearButton.textContent = year;
-	            yearButton.onclick = () => showYear(year);
+	            yearButton.onclick = () => showYear(yearButton, year);
 	            tabsContainer.appendChild(yearButton);
 
 	        //}
@@ -109,14 +115,40 @@ xhr.onreadystatechange = function() {
 	xhr.send('action=change_destination&mi_destino=' + encodeURIComponent(valorDestino));
 });
 
-function showYear(selectedYear) {
+function autoClickFirstChild() {
+    const div = document.getElementById('destinos-logos');
+    if (div && div.firstElementChild) {
+        div.firstElementChild.click();
+        div.style.display = 'none';
+    }
+}
+function autoClickFirstYear() {
+	const buttons = document.querySelectorAll('.yearButton');
+
+    buttons.forEach(button => {
+    	
+        if (button.textContent === document.getElementById("current-year").value) {
+            button.click(); // Simula el click en el botón con el texto 2024
+        }
+    });
+}
+
+function showYear(button, selectedYear) {
 	console.log("datos---");
 	console.log(fechas_sectorizadas[selectedYear]);
+
+	// Elimina la clase 'active' de todos los botones
+    const allButtons = document.querySelectorAll('.yearButton');
+    allButtons.forEach(btn => btn.classList.remove('active'));
+
+    // Agrega la clase 'active' al botón seleccionado
+    button.classList.add('active');
+
 	let dates = fechas_sectorizadas[selectedYear];
 	let yearContents = document.getElementById("yearContents");
 	yearContents.innerHTML = "";
 	// Agrupar fechas por el mes
-    const months = {};
+    let months = {};
     dates.forEach(date => {
         const month = date.split('-')[0]; // Extraer el mes como "09"
         if (!months[month]) {
@@ -125,20 +157,71 @@ function showYear(selectedYear) {
         months[month].push(date);
     });
 
+
+    console.log("meses...");
+    console.log(months);
+    
+    
+    
     // Crear un div para cada mes y añadirlo al contenedor
     Object.keys(months).forEach(monthNumber => {
-        const monthName = getMonthName(monthNumber);
+    	if (parseInt(monthNumber) !== 10 && parseInt(monthNumber) !== 11 && parseInt(monthNumber) !== 12)
+    	{
+
+	        const monthName = getMonthName(parseInt(monthNumber));
+	        const monthDiv = document.createElement('div');
+	        monthDiv.id = `month-${monthNumber}`;
+	        monthDiv.style.margin = "10px";
+	        //monthDiv.textContent = monthName; // Añadir el nombre del mes al div
+
+	        const labelMonth = document.createElement('div');
+	        labelMonth.textContent = monthName;
+	        monthDiv.appendChild(labelMonth);
+	        yearContents.appendChild(monthDiv);
+    	}
+        
+    });
+
+    if (months["10"])
+    {
+    	const monthName = getMonthName(10);
         const monthDiv = document.createElement('div');
-        monthDiv.id = `month-${monthNumber}`;
+        monthDiv.id = `month-10`;
         monthDiv.style.margin = "10px";
         //monthDiv.textContent = monthName; // Añadir el nombre del mes al div
 
-        yearContents.appendChild(monthDiv);
         const labelMonth = document.createElement('div');
         labelMonth.textContent = monthName;
         monthDiv.appendChild(labelMonth);
-    });
+        yearContents.appendChild(monthDiv);
+    }
+    if (months["11"])
+    {
+    	const monthName = getMonthName(11);
+        const monthDiv = document.createElement('div');
+        monthDiv.id = `month-11`;
+        monthDiv.style.margin = "10px";
+        //monthDiv.textContent = monthName; // Añadir el nombre del mes al div
 
+        const labelMonth = document.createElement('div');
+        labelMonth.textContent = monthName;
+        monthDiv.appendChild(labelMonth);
+        yearContents.appendChild(monthDiv);
+    }
+    
+    if (months["12"])
+    {
+    	const monthName = getMonthName(12);
+        const monthDiv = document.createElement('div');
+        monthDiv.id = `month-12`;
+        monthDiv.style.margin = "10px";
+        //monthDiv.textContent = monthName; // Añadir el nombre del mes al div
+
+        const labelMonth = document.createElement('div');
+        labelMonth.textContent = monthName;
+        monthDiv.appendChild(labelMonth);
+        yearContents.appendChild(monthDiv);
+    }
     let selectElement = document.getElementById('fecha');
 
     // Recorrer cada opción del select
@@ -147,56 +230,28 @@ function showYear(selectedYear) {
         
         if (option.value !== '0')
         {
-        	//alert(option.value);
-        	/*
-        	let xhr2 = new XMLHttpRequest();
-        	xhr2.onreadystatechange = function() {
-        		alert();
-				if (this.readyState == 4 && this.status == 200) {
-					let result = JSON.parse(this.responseText);
-					let opciones = result.datos;
-					alert(opciones);
-				}
-
-				xhr2.open("POST", localhost + "/wp-admin/admin-ajax.php", true);
-				xhr2.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-				xhr2.send('action=query_date&fecha=' + encodeURIComponent(option.value));
-			};
-			*/
+        	
 			// Llamada AJAX usando fetch
 			let dateLi = option.value;
         	dateLi = dateLi.split("-");
         	let dateLiMonth = dateLi[1];
         	//alert(dateLiMonth);
+        	let datas = document.getElementById("destino-json").value;
+        	datas = JSON.parse(datas);
         	if (selectedYear === dateLi[0])
         	{
-			
-			fetch(localhost + '/wp-admin/admin-ajax.php?action=query_date', {
-			    method: 'POST',
-			    headers: {
-			        'Content-Type': 'application/x-www-form-urlencoded',
-			    },
-			    body: new URLSearchParams({
-			        'fecha': option.value
-			    })
-			})
-			.then(response => response.json())
-			.then(data => {
-
-			    if (data.datos) {
-			        const numeroReservas = data.datos;
-			        console.log("fecha: " + option.value);
-			        console.log('Número de reservas:', numeroReservas);
+			    if (datas.includes(option.value)) {
+			        //const numeroReservas = datos;
+			        
 			        let monthContent = document.getElementById(`month-${dateLiMonth}`);
 	        		let newdateToAdd = document.createElement("div");
 	        		let dateArray = (option.value).split("-");
 	        		newdateToAdd.onclick = () => selectDate(option.value);
 	        		newdateToAdd.innerHTML = dateArray[2] + " " + getMonthName(parseInt(dateArray[1])) + "<span style='color: green; position: absolute; right: 0; top: 50%; transform: translateY(-50%);'> Available</span>";
 	        		monthContent.appendChild(newdateToAdd);
-			    } if(data.datos === 0) {
-			        const numeroReservas = data.datos;
-			        console.log("fecha: " + option.value);
-			        console.log('Número de reservas:', numeroReservas);
+			    } else {
+			        //const numeroReservas = datos;
+			        
 			        let monthContent = document.getElementById(`month-${dateLiMonth}`);
 	        		let newdateToAdd = document.createElement("div");
 	        		let dateArray = (option.value).split("-");
@@ -204,13 +259,6 @@ function showYear(selectedYear) {
 	        		newdateToAdd.innerHTML = dateArray[2] + " " + getMonthName(parseInt(dateArray[1])) + "<span style='color: red; position: absolute; right: 0; top: 50%; transform: translateY(-50%);'> Sold Out</span>";
 	        		monthContent.appendChild(newdateToAdd);
 			    }
-			})
-			.catch(error => {
-			    console.error('Error en la solicitud:', error);
-			});
-        	//alert(option.value);
-        	
-        		
         	}
         }
     }
@@ -263,6 +311,24 @@ function selectDate (valor)
             break;
         }
     }
+    scrollToHabitacion();
+
+}
+
+function scrollToHabitacion() {
+  let formularioreserva = document.getElementById("formulario-reserva");
+  
+  // Obtener la posición del elemento
+  var elementPosition = formularioreserva.getBoundingClientRect().top + window.pageYOffset;
+  
+  // Ajustar la posición del scroll, por ejemplo, 100px arriba del elemento
+  var offsetPosition = elementPosition - 150;
+
+  // Desplazar el scroll suavemente a la nueva posición
+  window.scrollTo({
+    top: offsetPosition,
+    behavior: "smooth"
+  });
 }
 // Función para obtener el nombre del mes a partir de un número
 function getMonthName(monthNumber) {

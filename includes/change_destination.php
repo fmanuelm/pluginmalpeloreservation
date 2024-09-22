@@ -27,7 +27,7 @@ LEFT JOIN $name_table
 ON $name_table.id = $table_name2.id_reservation
 LEFT JOIN $table_name3 
 ON $table_name3.id = $table_name2.bedroom_id
-WHERE $table_name2.id_reservation = $id_reservation GROUP BY $table_name2.fecha");
+WHERE $table_name2.id_reservation = $id_reservation GROUP BY $table_name2.fecha ORDER BY $table_name2.fecha ASC");
 
 		// wp_redirect( admin_url( 'admin.php?page=custom-email' ) ); // Redirige a la subpágina después de guardar los datos
 		wp_send_json(['datos'=>$datos]);

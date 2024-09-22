@@ -81,6 +81,7 @@ label {
 #yearTabs {
   text-align: center;
   border-bottom: 5px solid #004b96;
+  margin-bottom: 25px;
 }
 .yearButton {
   background-color: transparent;
@@ -94,7 +95,10 @@ label {
   margin: 5px 10px;
   font-weight: bold;
 }
-
+#yearTabs .active {
+  background: #3b9dff;
+  color: #fff;
+}
 .yearButton:hover {
   background: #3b9dff;
   color: #fff;
@@ -102,7 +106,7 @@ label {
 
 
 #yearContents > div {
-  width: 33%;
+  width: 28%;
   border: 2px solid #ddd;
   padding: 10px 10px;
   border-radius: 10px;
@@ -120,4 +124,42 @@ label {
   color: blue;
   font-weight: bold;
   position: relative;
+}
+@media (max-width: 1190px) {
+  #yearContents > div {
+    width: 44%;
+  }
+}
+@media (max-width: 600px) {
+  #yearContents > div {
+    width: 80%;
+  }
+}
+.destino-logo {
+  background: #004B96;
+  margin: 10px;
+}
+
+.destino-logo:hover {
+  background: #35A8E0;
+}
+.destino-logo img {
+  padding: 10px;
+}
+.form-group .btn-enviar, .form-group .btn-atras{
+  padding: 0px 6em;
+  border-radius: 30px;
+  background: #004b96;
+  color: #fff;
+  font-size: 22px;
+  border: 1px solid #004b96;
+}
+.form-group .btn-atras {
+  padding: 0px 3em;
+}
+
+@media (max-width: 444px) {
+ .form-group .btn-enviar {
+  padding: 0px 4em;
+ }
 }

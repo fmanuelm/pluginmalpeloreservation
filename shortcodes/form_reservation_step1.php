@@ -10,13 +10,24 @@ function form_reservation_step1($atts) {
     $web_destino = $slug;
     $img_destinations[] = Array();
     $logos_destino = get_destinations_img();
+    $destinos_json = get_disponibilidad();
     //echo get_destinations();
-    $form = '<div style="display: flex; align-items: center; justify-content: center;">
+    $langYear = "Year";
+    if (get_locale() === 'es-ES')
+    {
+        $langYear = "Año";
+    }
+    $form = '<div style="display: flex; align-items: center; justify-content: center; justify-content: center;" id="destinos-logos">
     ' . $logos_destino .'
     </div>
+    <input type="hidden" id="current-year" value="' . date('Y') . '"/>
+    <input type="hidden" id="destino-json" value='."'". $destinos_json . "'". '/>
+    <h2 style="display: none; text-align: center; font-size: 40px; color: #004b96; font-family: Roboto; margin-bottom: 30px;" id="titulo-destino"></h2>
+    <h2 style="text-align: center; font-size: 40px; color: #004b96; font-family: Roboto; margin-bottom: 30px;">' . $langYear . '</h2>
     <div id="yearTabs"></div>
-    <div id="yearContents" style="display: flex;"></div>
-    <form method="post" action="' . home_url() . '/' .  $web_destino . '" autocomplete="off">
+    <div id="yearContents" style="display: flex; flex-wrap: wrap;
+  gap: 10px; justify-content: center;"></div>
+    <form method="post" id="formulario-reserva" action="' . home_url() . '/' .  $web_destino . '" autocomplete="off">
 
                 <div class="form-group" style="display: none;">
                     <label for="destino">Destino:</label>
@@ -48,7 +59,7 @@ function form_reservation_step1($atts) {
                 <br/>
                 <input type="hidden" name="form1" value="1"/>
                 <div class="form-group" style="text-align: center">
-                <input type="submit" name="enviar" value="Enviar" id="submit" class="btn-enviar" style="padding: 0px 6em; border-radius: 30px; background: #004b96; color: #fff; font-size: 22px; border: 1px solid #004b96;"/>
+                <input type="submit" name="enviar" value="Enviar" id="submit" class="btn-enviar"/>
                 </div>
               </form>';
 
@@ -76,14 +87,48 @@ function get_destinations_img()
 {
     global $wpdb;
     $table_name = $wpdb->prefix . 'mapelo_reservation';
-    $query = "SELECT id, destination, logo FROM $table_name";
+    $query = "SELECT id, destination, logo FROM $table_name ORDER BY id DESC";
     $resultados = $wpdb->get_results($query);
     
     $result = "";
 
     foreach ($resultados as $resultado) {
-        $result .= "<div class='destino-logo' style='cursor: pointer;' data-destino='" . $resultado->id . "'><img style='margin:10px;'" . " src='" . $resultado->logo . "'/></div>";
+        $display = "";
+        
+        if ($_SERVER['HTTP_HOST'] !== 'localhost')
+        {
+            if ($resultado->id == 1)
+            {
+                $display = "display: none;";
+            }
+        }
+        
+        $result .= "<div class='destino-logo' style='cursor: pointer;$display' data-destinoname='$resultado->destination' data-destino='" . $resultado->id . "'><img " . " src='" . $resultado->logo . "'/></div>";
     }
 
     return $result;
+}
+
+function get_disponibilidad()
+{
+    global $wpdb;
+    $paquete_id = 4;
+    if ($_SERVER['HTTP_HOST'] === 'localhost')
+    {
+        $paquete_id = 9;
+    }
+    
+    $table_name = $wpdb->prefix . 'mapelo_reservation_bedrooms_books';
+    $query = "SELECT count($table_name.id) AS cantidad, $table_name.fecha, $table_name.id_reservation FROM $table_name WHERE $table_name.disponible = 1 AND $table_name.id_reservation = $paquete_id GROUP BY $table_name.fecha";
+    
+    $resultados = $wpdb->get_results($query);
+    
+    $result = [];
+
+    foreach ($resultados as $resultado) {
+        $result[] = $resultado->fecha;
+    }
+
+    return json_encode($result);
+
 }
