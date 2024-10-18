@@ -51,7 +51,7 @@ function form_mapelo_reservation() {
   {
     echo "<p>No se creó, porque se quedaron campos vacíos. Asegurese de no dejar campos vacíos.</p>";
   }
-  if (isset($_GET['updated']) && $_GET['updated'] ==1)
+  if (isset($_GET['updated']) && $_GET['updated'] == 1)
   {
     echo "<p>Se ha actualizado perfectamente</p>";
   }

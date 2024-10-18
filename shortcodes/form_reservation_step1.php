@@ -115,7 +115,7 @@ function get_disponibilidad()
     $paquete_id = 4;
     if ($_SERVER['HTTP_HOST'] === 'localhost')
     {
-        $paquete_id = 9;
+        $paquete_id = 28;
     }
     
     $table_name = $wpdb->prefix . 'mapelo_reservation_bedrooms_books';
