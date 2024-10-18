@@ -360,6 +360,7 @@ fecha.addEventListener("change", function (event){
 					if (opcion2.disponible === '0')
 					{
 						option2.setAttribute("disabled","disabled");
+						return ;
 					}
 					habitacion.appendChild(option2);
 				});
