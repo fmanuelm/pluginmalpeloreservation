@@ -20,12 +20,13 @@ if (isset($_POST['submit'])) {
     $id = $_POST['reservation_id'];
     $habitaciones = isset($_POST['habSelect'])?$_POST['habSelect']:null;
     $habDisponible = isset($_POST['habDisponible'])?$_POST['habDisponible']:null;
-    echo "habitaciones: ";
-    print_r($habitaciones);
-    echo "<br>";
-    echo "hab disponible: ";
-    print_r($habDisponible);
-    echo "<br>";
+    
+    // organiza los indice de los array que empiecen desde 0
+    $habitaciones = array_values($habitaciones);
+    $habDisponible = array_values($habDisponible);
+    $fechas = array_values($fechas);
+    
+    
     // Prepara los datos para ser insertados en la base de datos
     $data = array(
         'destination' => $destino,
@@ -45,13 +46,15 @@ if (isset($_POST['submit'])) {
     $has_date = false;
 
     $i = 0;
+    
     foreach ($fechas as $key => $value) {
         
         if (isset($habitaciones[$key]))
         {
             foreach ($habitaciones[$key] as $bedroom_id => $value2) {
                 $disponible = $habDisponible[$i][$bedroom_id];
-                
+                echo "habitacion: $bedroom_id";
+                echo "<br/>";
                 $data2 = array(
                                 'id_reservation'=> $id,
                                 'bedroom_id' => $bedroom_id,
@@ -60,7 +63,7 @@ if (isset($_POST['submit'])) {
                             );
                 
                 
-                if ($value !== '' && $value !== null)
+                if ($value)
                 {
                     $wpdb->insert($table_name2, $data2);
                     $has_date = true;
