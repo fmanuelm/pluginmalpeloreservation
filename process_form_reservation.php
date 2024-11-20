@@ -17,7 +17,7 @@ if (isset($_POST['submit'])) {
     $logo = $_POST['logo'];
     
     $habitaciones = isset($_POST['habSelect'])?$_POST['habSelect']:null;
-
+    $precios = isset($_POST['habPrecio'])?$_POST['habPrecio']:null;
     $disponibilidad = isset($_POST['habDisponible'])?$_POST['habDisponible']:null;
 
     // Prepara los datos para ser insertados en la base de datos
@@ -48,6 +48,7 @@ if (isset($_POST['submit'])) {
                                 'id_reservation'=> $inserted_id,
                                 'bedroom_id' => $bedroom_id,
                                 'disponible' => $disponibilidad[$bedroom_id],
+                                'custom_price' => $precios[$key][$bedroom_id],
                                 'fecha' => $value
                             );
                 

@@ -51,7 +51,8 @@ function form_reservation() {
                 <textarea id="mensaje" name="mensaje" class="form-control" placeholder="Mensaje"></textarea>
               </div>
               <div class="form-group">
-                <input type="submit" value="Confirmar Reserva" name="enviar" class="btn-enviar"><a href="#" class="btn-atras">Atrás</a>
+                <a href="#" class="btn-atras">Atrás</a>
+                <button type="submit" name="enviar" class="btn-enviar">Confirmar<span> Reserva</span></button>
               </div>' . $fields . '</form>';
 	}
     if (isset($_POST['enviar']) && isset($_POST['nombre']))

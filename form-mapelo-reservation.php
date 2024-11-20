@@ -27,6 +27,7 @@ require_once(plugin_dir_path( __FILE__ ) . 'shortcodes/form_reservation_step1.ph
 //require_once(plugin_dir_path( __FILE__ ) . 'shortcodes/change_destination_form.php');
 require_once(plugin_dir_path( __FILE__ ) . 'includes/change_destination.php');
 require_once(plugin_dir_path( __FILE__ ) . 'includes/query_date.php');
+require_once(plugin_dir_path( __FILE__ ) . 'includes/query_extra_price.php');
 require_once(plugin_dir_path( __FILE__ ) . 'includes/change_habitacion.php');
 require_once(plugin_dir_path( __FILE__ ) . 'includes/change_fecha.php');
 require_once(plugin_dir_path( __FILE__ ) . 'includes/enviar_formulario.php');
@@ -75,14 +76,14 @@ function form_mapelo_reservation() {
   
   
   echo "<div id='habitaciones'>";
-    echo "<div class='form-group' style='margin: 10px 0px;'>";
+    echo "<div class='form-group' style='margin: 10px 0px; border-bottom: solid #ddd; padding: 10px 0px;'>";
       echo '<input type="date" name="fechas[]" id="fecha1" class="form-control fecha" style="margin-right: 20px"><br/><br/>';
         foreach ($habitaciones as $row) {
           $id = $row->id;
           $room_name = $row->room_name;
           $price = $row->price;
           $people = $row->people;
-          echo "<span style='margin-right: 10px;'><input type='checkbox' name='habSelect[0][$id]'> $room_name (Personas: <strong>$people</strong> / Precio x Persona: <strong>$price</strong>)<br/> Disponible: <input type='radio' name='habDisponible[$id]' value='1'/> Si <input type='radio' name='habDisponible[$id]' value='0'/> No</span><br/><br/>";
+          echo "<span style='margin-right: 10px;'><input type='checkbox' name='habSelect[0][$id]'> $room_name (Personas: <strong>$people</strong> / Precio x Persona: <strong>$price</strong>)<br/> Disponible: <input type='radio' name='habDisponible[$id]' value='1'/> Si <input type='radio' name='habDisponible[$id]' value='0'/> No</span><br/><input type='text' name='habPrecio[0][$id]' value='' placeholder='Precio' style='width:80px'><br/><br/>";
         }
     echo "</div>";
   echo "</div>";
@@ -201,7 +202,7 @@ ON $table_name3.id = $table_name2.bedroom_id
 WHERE $table_name2.id_reservation = $id GROUP BY $table_name2.fecha");
   
   $row_bedrooms2 = $wpdb->get_results("
-    SELECT  $name_table.id AS id_reservation, $name_table.destination, $table_name3.id as id_room, $table_name3.room_name, $table_name3.price, $table_name3.people, $table_name2.disponible, $table_name2.fecha FROM $table_name2 
+    SELECT  $name_table.id AS id_reservation, $name_table.destination, $table_name3.id as id_room, $table_name3.room_name, $table_name3.price, $table_name3.people, $table_name2.id AS id_tb2, $table_name2.custom_price, $table_name2.disponible, $table_name2.fecha FROM $table_name2 
 LEFT JOIN $name_table 
 ON $name_table.id = $table_name2.id_reservation
 LEFT JOIN $table_name3 
@@ -227,15 +228,13 @@ WHERE $table_name2.id_reservation = $id GROUP BY $table_name2.id");
     echo "<input type='text' name='logo' id='logo' value='$logo'>";
   echo "</div>";
   echo "<br/>";
-  echo "<div id='habitaciones'>";
+  echo "<div id='habitaciones' style='border-top: solid #ddd; padding: 10px 0px;'>";
+  
   $fila = 0;
     foreach ($row_bedrooms as $row) {
-      
       $fecha = $row->fecha;
       $disponible = $row->disponible;
-      
-      
-      echo "<div class='form-group' style='margin: 10px 0px; position: relative;'>";
+      echo "<div class='form-group' style='margin: 10px 0px; position: relative;border-bottom: solid #ddd; padding: 10px 0px;'>";
         echo '<input type="date" name="fechas[]" value="' . $fecha . '" class="form-control fecha" style="margin-right: 20px">';
             foreach ($habitaciones as $row1) {
               $id = $row1->id;
@@ -247,7 +246,6 @@ WHERE $table_name2.id_reservation = $id GROUP BY $table_name2.id");
               $disponibleCheckedNo = '';
               foreach ($row_bedrooms2 as $row2)
               {
-                
                 //echo $row2->id_room . " - " . $row1->id . " / ";
                 if (($row2->id_room === $row1->id) && ($fecha === $row2->fecha))
                 {
@@ -260,14 +258,15 @@ WHERE $table_name2.id_reservation = $id GROUP BY $table_name2.id");
                   else {
                     $disponibleCheckedNo = 'checked';
                   }
+                  $precio = $row2->custom_price;
                 }
               }
               if ($disponibleCheckedSi === '' && $disponibleCheckedNo === '')
               {
                 $disponibleCheckedSi = 'checked';
               }
-
-              echo "<span style='margin-right: 10px'><br/><input type='checkbox' name='habSelect[$fila][$id]' $checked> $room_name (Personas: <strong>$people</strong> / Precio x Persona: <strong>$price</strong>) <br/> Disponible: <input type='radio' name='habDisponible[$fila][$id]' $disponibleCheckedSi value='1'/> Si <input type='radio' name='habDisponible[$fila][$id]' $disponibleCheckedNo value='0'/> No</span></span>";
+              
+              echo "<span style='margin-right: 10px'><br/><input type='checkbox' name='habSelect[$fila][$id]' $checked> $room_name (Personas: <strong>$people</strong> / Precio x Persona: <strong>$price</strong>) <br/> Disponible: <input type='radio' name='habDisponible[$fila][$id]' $disponibleCheckedSi value='1'/> Si <input type='radio' name='habDisponible[$fila][$id]' $disponibleCheckedNo value='0'/> No<br/><input type='text' name='habPrecio[$fila][$id]' value='$precio' placeholder='Precio' style='width:80px'/><br/></span>";
               $checked = '';
             }
             echo "<button class='btn-danger btn remove-bedroom' style='position: absolute; right: 10px; top: 10px;  font-size: 20px; width: 30px;'>x</button>";
@@ -346,6 +345,10 @@ function my_plugin_init() {
 
   add_action('wp_ajax_change_fecha', 'change_fecha');
   add_action('wp_ajax_nopriv_change_fecha', 'change_fecha');
+
+  add_action('wp_ajax_query_extra_price', 'query_extra_price');
+  add_action('wp_ajax_nopriv_query_extra_price', 'query_extra_price');
+
 }
 register_activation_hook( __FILE__, 'my_plugin_activate' );
 

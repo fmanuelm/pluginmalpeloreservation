@@ -404,6 +404,7 @@ habitacion.addEventListener("change", function (event) {
 			priceHab = result.price;
 			let peopleHab =  parseInt(result.people) + 1;
 			document.querySelector("#total").value = priceHab;
+			updatePrice();
 			for(let c = 1; c < peopleHab; c++)
 			{
 				var option = document.createElement("option");
@@ -432,5 +433,29 @@ habitacion.addEventListener("change", function (event) {
 });
 personas.addEventListener("change", function (event) {
 	//document.getElementById("num").value = personas.value;
+	updatePrice();
 	document.querySelector("#total").value = priceHab * document.querySelector("#personas").value;
 });
+
+function updatePrice()
+{
+	let xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			let result = JSON.parse(this.responseText);
+			let precio = result.datos;
+			if (precio !== null && parseInt(precio) !== 0)
+			{
+				console.log("is not null");
+				console.log("precio: " + precio);
+				document.querySelector("#total").value =  parseFloat(precio) * document.querySelector("#personas").value;
+			}
+			else {
+				console.log("is null");
+			}
+		}
+	}
+	xhr.open("POST", localhost + "/wp-admin/admin-ajax.php", true);
+	xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	xhr.send('action=query_extra_price&mi_destino=' + encodeURIComponent(valorDestino) + `&fecha=${fecha.value}&id_reservation=${destino.value}&bedroom_id=${habitacion.value}`);
+}

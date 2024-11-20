@@ -47,6 +47,8 @@ addBedroom.addEventListener("click", function() {
     newRoom.classList.add("form-group");
     newRoom.style.margin = "10px 0px";
     newRoom.style.position = "relative";
+    newRoom.style.borderBottom = "solid #ddd";
+    newRoom.style.padding = "10px 0px";
     fecha.classList.add("form-control");
     fecha.classList.add("fecha");
     fecha.setAttribute("name", "fechas[]");
@@ -81,11 +83,13 @@ addBedroom.addEventListener("click", function() {
       input_hab.classList.add("form-control");
       let saltoLinea = document.createElement("br");
       let saltoLinea2 = document.createElement("br");
+      let saltoLinea3 = document.createElement("br");
       let disponibilidadSi = document.createElement("input");
       let disponibilidadNo = document.createElement("input");
       let txtDisponibilidad = document.createTextNode("Disponible: ");
       let txtDisponibilidadSi = document.createTextNode(" Si ");
       let txtDisponibilidadNo = document.createTextNode(" No ");
+      let inputPrice = document.createElement("input");
       disponibilidadSi.setAttribute("type", "radio");
       disponibilidadSi.setAttribute("name", "habDisponible" + `[${inputCount}][${val.id}]`);
       disponibilidadSi.setAttribute("type", "radio");
@@ -94,6 +98,8 @@ addBedroom.addEventListener("click", function() {
       disponibilidadNo.setAttribute("type", "radio");
       disponibilidadNo.value = "0";
       disponibilidadNo.setAttribute("name", "habDisponible" + `[${inputCount}][${val.id}]`);
+      inputPrice.setAttribute("name", "habPrecio" + `[${inputCount}][${val.id}]`);
+      inputPrice.style.width = "80px";
       span_fecha.appendChild(saltoLinea);
       span_fecha.appendChild(input_hab);
       
@@ -101,13 +107,16 @@ addBedroom.addEventListener("click", function() {
       
       span_fecha.appendChild(label_hab);
       span_fecha.appendChild(saltoLinea2);
+      span_fecha.appendChild(saltoLinea3);
       span_fecha.appendChild(txtDisponibilidad);
       
       span_fecha.appendChild(txtDisponibilidadSi);
       span_fecha.appendChild(disponibilidadSi);
       span_fecha.appendChild(txtDisponibilidadNo);
       span_fecha.appendChild(disponibilidadNo);
-      
+      span_fecha.appendChild(saltoLinea2);
+      span_fecha.appendChild(saltoLinea2);
+      span_fecha.appendChild(inputPrice);
       newRoom.appendChild(span_fecha);
       
     });

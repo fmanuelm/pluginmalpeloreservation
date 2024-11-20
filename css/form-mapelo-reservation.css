@@ -158,8 +158,15 @@ label {
   padding: 0px 3em;
 }
 
-@media (max-width: 444px) {
+@media (max-width: 604px) {
  .form-group .btn-enviar {
-  padding: 0px 4em;
+  padding: 0px 2em;
+ }
+ .form-group .btn-atras {
+  padding: 0px 2em;
+  margin-right: 10px;
+ }
+ .form-group .btn-enviar span {
+  display: none;
  }
 }

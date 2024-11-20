@@ -19,11 +19,13 @@ if (isset($_POST['submit'])) {
     $fechas = $_POST['fechas'];
     $id = $_POST['reservation_id'];
     $habitaciones = isset($_POST['habSelect'])?$_POST['habSelect']:null;
+    $precios = isset($_POST['habPrecio'])?$_POST['habPrecio']:null;
     $habDisponible = isset($_POST['habDisponible'])?$_POST['habDisponible']:null;
     
     // organiza los indice de los array que empiecen desde 0
     $habitaciones = array_values($habitaciones);
     $habDisponible = array_values($habDisponible);
+    $precios = array_values($precios);
     $fechas = array_values($fechas);
     
     
@@ -53,13 +55,15 @@ if (isset($_POST['submit'])) {
         {
             foreach ($habitaciones[$key] as $bedroom_id => $value2) {
                 $disponible = $habDisponible[$i][$bedroom_id];
+                $precioHab = $precios[$i][$bedroom_id];
                 echo "habitacion: $bedroom_id";
                 echo "<br/>";
                 $data2 = array(
                                 'id_reservation'=> $id,
                                 'bedroom_id' => $bedroom_id,
                                 'fecha' => $value,
-                                'disponible' => $disponible
+                                'custom_price' => $precioHab,
+                                'disponible' => $disponible,
                             );
                 
                 
