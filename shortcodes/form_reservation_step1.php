@@ -23,7 +23,7 @@ function form_reservation_step1($atts) {
     <input type="hidden" id="current-year" value="' . date('Y') . '"/>
     <input type="hidden" id="destino-json" value='."'". $destinos_json . "'". '/>
     <h2 style="display: none; text-align: center; font-size: 40px; color: #004b96; font-family: Roboto; margin-bottom: 30px;" id="titulo-destino"></h2>
-    <h2 style="text-align: center; font-size: 40px; color: #004b96; font-family: Roboto; margin-bottom: 30px;">' . $langYear . '</h2>
+    <h2 style="text-align: center; font-size: 40px; color: #004b96; font-family: Roboto; margin-bottom: 30px;">'  . "Select " . $langYear . '</h2>
     <div id="yearTabs"></div>
     <div id="yearContents" style="display: flex; flex-wrap: wrap;
   gap: 10px; justify-content: center;"></div>
